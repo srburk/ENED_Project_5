@@ -11,6 +11,7 @@ from pybricks.tools import wait
 # custom imports
 from subtask1a import task_1a
 from subtask1b import task_1b
+from reset_gyro import calibrate_gyro
 
 # Constants
 right_motor = Motor(Port.D)
@@ -27,16 +28,18 @@ ev3.screen.print('DOWN for Task B')
 
 buttons_pressed = ev3.buttons.pressed()
 
-while not ((Button.UP in buttons_pressed)) and (not (Button.DOWN in buttons_pressed)):
+while not ((Button.UP in buttons_pressed)) and (not (Button.DOWN in buttons_pressed)) and (not (Button.CENTER in buttons_pressed)):
     wait(100)
     buttons_pressed = ev3.buttons.pressed()
 
 ev3.screen.clear()
 
 if Button.UP in buttons_pressed:
-    task_1a(ev3, robot, 5, 10)
+    task_1a(ev3, robot, 3, 120)
+elif Button.DOWN in buttons_pressed:
+    task_1b(ev3, robot, gyro_sensor, 4, 90)
 else:
-    task_1b(ev3, robot, gyro_sensor, 5, 10)
+    calibrate_gyro(gyro_sensor)
 
 robot.stop()
     
